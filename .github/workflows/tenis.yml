@@ -3,8 +3,7 @@ name: Auto Reserva Tenis
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 0 * * 2-6"
-
+       - cron: "*/5 * * * *"
 jobs:
   reservar:
     runs-on: ubuntu-latest
