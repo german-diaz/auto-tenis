@@ -1,29 +1,22 @@
 name: Auto Reserva Tenis
 
 on:
+  workflow_dispatch:
   schedule:
     - cron: "0 0 * * 2-6"
-  workflow_dispatch:
 
 jobs:
   reservar:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-
-      - name: Install dependencies
-        run: |
+      - run: |
           pip install -r requirements.txt
           playwright install chromium
-
-      - name: Run reservation bot
-        run: python reserva.py
+      - run: python reserva.py
         env:
           BIGUA_USER: ${{ secrets.BIGUA_USER }}
           BIGUA_PASS: ${{ secrets.BIGUA_PASS }}
