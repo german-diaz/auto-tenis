@@ -1,0 +1,29 @@
+name: Auto Reserva Tenis
+
+on:
+  schedule:
+    - cron: "0 0 * * 2-6"   # 21:00 Uruguay (UTC-3) → 00:00 UTC martes a sábado
+  workflow_dispatch:
+
+jobs:
+  reservar:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          playwright install chromium
+
+      - name: Run reservation bot
+        run: python reserva.py
+        env:
+          BIGUA_USER: ${{ secrets.BIGUA_USER }}
+          BIGUA_PASS: ${{ secrets.BIGUA_PASS }}
